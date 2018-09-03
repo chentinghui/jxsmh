@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆</title>
+    <link rel="stylesheet" href="../../css/login.css">
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/axios.min.js"></script>
+</head>
+<body>
+<form action="">
+    <img src="../../images/index/u10.png" alt="登陆logo" style=" display: block;margin: 0 auto 100px auto;">
+    <br>
+    <input type="text" class="ipt" name="loginname" placeholder="请输入用户名">
+    <input type="password" class="ipt" name="psw" placeholder="请输入密码">
+    <input type="button" class="ipt login" value="登陆系统" onclick="login()">
+    <input id="remember" type="checkbox">
+    <label for="remember">记住我做这台电脑的登陆状态</label><br>
+    <div class="martop40"></div>
+    <a href="">没有账户？</a>
+    <a href="">忘记我的密码或登陆ID</a>
+    <a href="">联系我们！</a>
+</form>
+
+<p class="footerInfo">
+    © 2017-2018  ALL RIGHTS RESERVED BY CMECH
+</p>
+<script>
+    function login(){
+        var username = $("#username").val();
+        var password = $("#password").val();
+        axios.post('/login', {
+            username: username,
+            password: password,
+            permission: 2 //用户登录
+        }).then(function (res) {
+            if (res.data.error) {
+                alert(res.data.error)
+            }else if (res.data.message) {
+                alert(res.data.message)
+            } else {
+                //alert(JSON.stringify(res.data.user.username));
+                sessionStorage.setItem('token', res.data.token);
+                sessionStorage.setItem('currentUser', JSON.stringify(res.data.user.username));
+                window.location.href = 'pages/base.html';
+            }
+        })
+    }
+</script>
+</body>
+</html>

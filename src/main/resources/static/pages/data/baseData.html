@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>资料</title>
+    <link rel="stylesheet" href="../../css/admin.css">
+    <!--<link rel="stylesheet" href="../../css/bootstrap.css">-->
+    <link rel="stylesheet" href="../../js/layui/css/layui.css"  media="all">
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/axios.min.js"></script>
+    <script src="../../js/layui/layui.js" charset="utf-8"></script>
+    <script src="../../js/common.js"></script>
+
+
+</head>
+<body>
+<input id="tempid" type="hidden" value="">
+<input id="imageUrl" type="hidden" value="">
+<div class="container content">
+    <div class="left-part left-part-fill">
+        <ul class="left-list">
+            <li class="type" onclick="changeTab('dataClass.html')">
+                类目管理 <br>
+                CATEGORY
+            </li>
+            <li class="add " onclick="changeTab('dataAdd.html')">
+                新增资料 <br>
+                NEW DATA
+            </li>
+            <li class="list active" onclick="changeTab('dataList.html')">
+                资料列表 <br>
+                DATA LIST
+            </li>
+        </ul>
+    </div>
+    <!--<div>-->
+        <iframe style="width: 80%;height: 100%;min-height: 450px; " id="dataIfame" src="dataList.html"> </iframe>
+    <!--</div>-->
+    <!--<div>-->
+        <!--<span class="footerText">-->
+            <!--© 2017-2018  ALL RIGHTS RESERVED BY CMECH-->
+        <!--</span>-->
+    <!--</div>-->
+</div>
+
+<script>
+    function changeTab(url){
+        $("#dataIfame").attr("src",url)
+    }
+</script>
+
+</body>
+</html>

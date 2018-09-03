@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台登陆页面</title>
+    <style>
+        *{margin: 5px 0;}
+        html{width: 100%;height: 100%;background: url("images/u0.png");}
+        form{width: 500px;margin: 10% auto;}
+        form{font-size: 14px;color: white}
+        form .ipt{
+            color: #333;
+            text-align: center;font-size: 20px;
+            width: 100%; height: 60px;
+            background: white!important;
+            border: none;
+            border-radius: 30px;
+            -moz-box-shadow: none;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            margin: 20px 0;
+        }
+        form .login{
+            background-color: rgba(25, 127, 191, 1)!important;
+            color: white;
+        }
+        .martop40{margin-top: 40px;}
+        .textcenter{text-align: center;color: white;font-weight: inherit;}
+    </style>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <!--<script src="js/common.js"></script>-->
+</head>
+<body>
+    <form id="formLogin" name="formLogin"  >
+        <img style="margin-left: calc(50% - 105px);"
+             src="images/u15.png" alt="登陆logo"><br>
+        <h1 class="textcenter">希美克经销商门户后台管理系统</h1>
+        <h4 class="textcenter">Dealer Portal Administrator Management</h4>
+        <input style="margin-top: 50px;" type="text" class="ipt" id="username" name="username" placeholder="请输入用户名">
+        <input type="password" class="ipt" id="password" name="password" placeholder="请输入密码">
+        <input type="button"  class="ipt login" value="登陆" onclick="login()" />
+     </form>
+</body>
+<script>
+    function login(){
+        var username = $("#username").val();
+        var password = $("#password").val();
+        axios.post('/login', {
+            username: username,
+            password: password,
+            permission: 1 //管理员登录
+        }).then(function (res) {
+            if (res.data.error) {
+                alert(res.data.error)
+            }else if (res.data.message) {
+                alert(res.data.message)
+            } else {
+                //alert(JSON.stringify(res.data.user.username));
+                sessionStorage.setItem('token', res.data.token);
+                sessionStorage.setItem('currentUser', JSON.stringify(res.data.user.username));
+                window.location.href = 'pages/base.html';
+            }
+        })
+    }
+</script>
+
+</html>

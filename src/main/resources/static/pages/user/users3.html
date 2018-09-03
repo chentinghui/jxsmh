@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>用户</title>
+    <link rel="stylesheet" href="../../css/bootstrap.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+    <link rel="stylesheet" href="../../js/layui/css/layui.css"  media="all">
+
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/axios.min.js"></script>
+    <script src="../../js/layui/layui.js" charset="utf-8"></script>
+    <!--<script src="../../js/layui/layui.all.js" charset="utf-8"></script>-->
+    <script src="../../js/common.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="left-part">
+        <ul class="left-list">
+            <li>
+                用户列表 <br>
+                USER LIST
+            </li>
+        </ul>
+    </div>
+    <!--列表-->
+
+    <div class="right-part navbar-form navbar-left" id="list">
+        <div class="form-group">
+           用户名: <input type="text" class="form-control" >
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" >
+        </div>
+
+        <span>
+           &nbsp;&nbsp; 状态 / Status &nbsp;&nbsp;
+        </span>
+
+        <select name="" id="">
+            <option value=""></option>
+        </select>
+
+        <!--<button class="btn"  onclick="addOne()">新增/ADD NEW</button>-->
+
+        <div class="site-demo-button" id="layerDemo" style="margin-bottom: 0;">
+            <button class="layui-btn">查询/SEARCH</button>
+            <button data-method="setTop" class="layui-btn">新增/ADD NEW</button>
+            <button class="layui-btn" onclick="deleteConfirm()">删除/DELETE</button>        </div>
+        <table id="tabledata" class="list martop30">
+            <tr>
+                <td>
+                    <input type="radio">编号
+                </td>
+                <td>
+                    用户名 <br>Username
+                </td>
+                <td>
+                    用户权限
+                    <br>
+                    Permissions
+                </td>
+                <td>
+                    电话
+                    <br>
+                    Mobile
+                </td>
+                <td>
+                    性别
+                    <br>
+                    Sex
+                </td>
+                <td>
+                    状态  <br>
+                    Status
+                </td>
+                <td>
+                    注册时间  <br>
+                    Create Date
+                </td>
+                <td>
+                    操作 <br>
+                    Operation
+                </td>
+            </tr>
+            <tr id="inserttr">
+                <td><input type="checkbox">1</td>
+                <td>纱窗只收</td>
+                <td>经销商</td>
+                <td>123112323</td>
+                <td>男</td>
+                <td>正常</td>
+                <td>2018-08-03</td>
+                <td>
+                    <span  onclick="addOne()">编辑/Edit</span>
+                    <span onclick="deleteConfirm()">删除/Delete</span>
+                </td>
+            </tr>
+        </table>
+        <ul class="pagewarp">
+            <li><a href="">上一页</a></li>
+            <li class="active"><a href="" class="active">1</a></li>
+            <li><a href="">2</a></li>
+            <li><a href="">3</a></li>
+            <li><a href="">4</a></li>
+            <li><a href="">下一页</a></li>
+        </ul>
+
+
+
+
+    </div>
+    <div id="addOne" class="cover" hidden>
+        <div class="hini-warp" style="padding-top: 0;border-radius: 0;">
+            <h2 class="bg-eee">新增用户</h2>
+            <table class="send-list" style="text-align: left;margin: auto;">
+                <tr>
+                    <td>用户名 / Username</td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>密码 / Password</td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>用户权限 / Permissions</td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>电话 / Mobile</td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>性别 / Sex</td>
+                    <td><select name="" style="width: 152px;height: 25px;">
+                        <option value="1">男</option>
+                        <option value="0">女</option>
+                    </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>状态 / Status</td>
+                    <td><select name="" style="width: 152px;height: 25px;" >
+                        <option value=""></option>
+                        <option value=""></option>
+                    </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button class="btn btn-info" onclick="document.getElementById('addOne').style.display='none'">保存 / SUBMIT</button>
+                        <button class="btn btn-default" >重置 / RESET</button>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <div id="delete" class="cover" hidden>
+        <div class="hini-warp">
+            <img src="../../images/u957.png" alt="">
+            <h4>你确定要删除这条信息吗？</h4>
+            <h4>Are you sure to delete the record?</h4>
+            <small class="martop30">删除后将无法恢复，请谨慎操作！</small>
+            <br>
+            <small>Deleted record cannot be recovered, please be carefull.</small>
+            <br>
+            <button class="btn martop30 btn-primary" onclick="this.parentNode.parentNode.style.display='none'">取消/CANCEL</button>
+            <button class="btn btn-info martop30"  onclick="this.parentNode.parentNode.style.display='none'">确定/CONFIRM</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function deleteConfirm(id){
+        document.getElementById('delete').style.display = 'block'
+    }
+    function addOne(){
+        document.getElementById('addOne').style.display='block'
+    }
+
+    $(document).ready(function () {
+        // if (sessionStorage.getItem('token') === null) {
+        //     layer.alert('请先登录',{icon: 1, title:'提示'}, function(index){
+        //         //do something
+        //         window.parent.location.href= '/login.html';
+        //     });
+        // }
+        axios.post('/user',{},{
+            headers: {token: sessionStorage.getItem('token')}
+        }).then(function (res) {
+            //JSON.stringify(res.data);
+            //  alert(JSON.stringify(res.data))
+            add(res.data)
+
+        })
+    });
+
+    function add(data){
+        var addtr = "";
+        for(var i=0;i < data.length;i++){
+            addtr += "   <tr> ";
+            addtr += "   <td><input type='checkbox'>1</td>";
+            addtr += "   <td>"+data[i].username+"</td>";
+            addtr += "   <td>经销商</td>";
+            addtr += "   <td>123112323</td>";
+            addtr += "   <td>男</td>";
+            addtr += "   <td>正常</td>";
+            addtr += "   <td>2018-08-03</td>";
+            addtr += " <td> ";
+            addtr += " <span  onclick='addOne()'>编辑/Edit</span>";
+            addtr += "   <span onclick='deleteConfirm()'>删除/Delete</span>";
+            addtr += "   </td>";
+            addtr += "   </tr>";
+
+        }
+        $("#tabledata").append(addtr);
+    }
+
+
+</script>
+<script>
+    layui.use('layer', function(){ //独立版的layer无需执行这一句
+        var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+
+        //触发事件
+        var active = {
+            setTop: function(){
+                var that = this;
+                //多窗口模式，层叠置顶
+                layer.open({
+                    type: 2 //此处以iframe举例
+                    ,title: '新增用户'
+                    ,area: ['600px', '500px']
+                    ,shade: 0
+                    ,maxmin: true //最大最小化
+                    ,offset:'auto'
+                    ,content: ['addUser.html']
+                    ,btn: ['保存', '关闭']
+                    ,yes: function(index,layero){
+                        var body = layer.getChildFrame('body', index);
+                        var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                        iframeWin.submitForm();
+                        //console.log(body.html()) //得到iframe页的body内容
+                        // body.find('input').val('Hi，我是从父页来的')
+                    }
+                    ,btn2: function(){
+                        layer.closeAll();
+                    }
+
+                    ,zIndex: layer.zIndex //重点1
+                    ,success: function(layero){
+                        //layer.setTop(layero); //重点2
+
+                    }
+                });
+            }
+
+        };
+
+        $('#layerDemo .layui-btn').on('click', function(){
+            var othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        });
+
+    });
+</script>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+        table.render({
+            elem: '#test'
+            ,url:'/demo/table/user/'
+            ,width: 892
+            ,height: 332
+            ,cols: [[
+                {type:'checkbox', fixed: 'left'}
+                ,{field:'id', width:80, title: 'ID', sort: true, fixed: 'left'}
+                ,{field:'username', width:80, title: '用户名'}
+                ,{field:'sex', width:80, title: '性别', sort: true}
+                ,{field:'city', width:80, title: '城市'}
+                ,{field:'sign', width: 219, title: '签名'}
+                ,{field:'experience', width:80, title: '积分', sort: true}
+                ,{field:'score', width:80, title: '评分', sort: true}
+                ,{field:'classify', width:80, title: '职业'}
+                ,{field:'wealth', width:120, title: '财富', sort: true, fixed: 'right'}
+            ]]
+            ,page: true
+        });
+    });
+</script>
+</body>
+</html>

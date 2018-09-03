@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.newsupplytech.jxsmh.mapper.user.UserMapper">
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into user(username, password,phone,sex,company,permission ) values (#{username},#{password},#{phone},#{sex},#{company},#{permission})
+    </insert>
+    <select id="findOne" resultType="User">
+        select id,username,password,state,createtime,permission,company,sex,phone from user
+          where  state = 1
+            <!-- 重复说一下，id 不能是 int，int 默认是 0，不可能是 null, 而 Integer 可以是 null-->
+            <if test="id!=null">
+               and id=#{id}
+            </if>
+            <if test="username!=null">
+                and username=#{username}
+            </if>
+            <if test="permission!=null">
+                and permission = #{permission}
+            </if>
+
+    </select>
+    <resultMap type="User" id="userList">
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="state" column="state"/>
+        <result property="createtime" column="createtime"/>
+        <result property="permission" column="permission"/>
+        <result property="company" column="company"/>
+        <result property="sex" column="sex"/>
+        <result property="phone" column="phone"/>
+    </resultMap>
+    <select id="findAll" resultMap="userList">
+        select id,username,password,state,createtime,permission,company,sex,phone from user
+    </select>
+
+    <update id="updateOne" parameterType="User" >
+        UPDATE user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="username!=null">username=#{username},</if>
+            <if test="password!=null">password=#{password},</if>
+            <if test="state!=null">state=#{state},</if>
+            <if test="company!=null">company=#{company},</if>
+            <if test="sex!=null">sex=#{sex},</if>
+            <if test="phone!=null">phone=#{phone},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+
+    <delete id="deleteUser"  parameterType = "java.util.List">
+        delete from user where id in
+        <foreach collection="list"  item="item" open="(" separator="," close=")"  >
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

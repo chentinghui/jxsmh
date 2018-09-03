@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户</title>
+    <link rel="stylesheet" href="../../css/bootstrap.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/axios.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="nav ">
+        <img class="left-part deep-bg center" src="../../images/u15.png" alt="">
+        <ul>
+            <li>
+                <a href="">
+                    <div class="icon icon-home"></div>
+                    <h4> 首页</h4>
+                    <h4> HOME</h4>
+                </a>
+            </li>
+            <li>
+                <a onclick="changeTab('news/news.html')" >
+                    <div class="icon icon-news"></div>
+                    <h4> 最新动态</h4>
+                    <h4> NEWS</h4>
+                </a>
+            </li>
+            <li>
+                <a onclick="changeTab('data/baseData.html')">
+                    <div class="icon icon-news"></div>
+                    <h4> 资料</h4>
+                    <h4> DATA</h4>
+                </a>
+            </li>
+            <li class="active">
+                <a onclick="changeTab('user/users.html')" >
+                    <div class="icon icon-news"></div>
+                    <h4> 用户管理</h4>
+                    <h4> USERS</h4>
+                </a>
+            </li>
+        </ul>
+        <div class="pull-right">
+            <h4 class="pull-right userInfo "><a onclick="logout()">退出/LOGOUT</a></h4>
+            <h4 class="pull-right userInfo userInfo1">HARDY</h4> </div>
+        <img class="pull-right userImg" src="../../images/u33.png" alt="头像">
+    </div>
+
+    <!--<div style="width: 100%;height: 100%; " >-->
+        <iframe style="width: 100%;height:100%;min-height: 500px; " id="myifame" src="main.html"></iframe>
+    <!--</div>-->
+
+
+</div>
+</body>
+<script>
+    function changeTab(url){
+        $("#myifame").attr("src",url)
+    }
+    function logout() {
+        sessionStorage.removeItem('token')
+        sessionStorage.removeItem('currentUser')
+        window.location.href = '../login.html'
+    }
+</script>
+</html>

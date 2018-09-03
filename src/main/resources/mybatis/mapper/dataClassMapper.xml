@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.newsupplytech.jxsmh.mapper.data.DataClassMapper">
+    <select id="queryList"  resultType="DataClass">
+        select id,pid,name
+        from dataclass where 1=1
+    </select>
+    <insert id="insertDataClass" parameterType="DataClass" useGeneratedKeys="true" keyProperty="id" >
+           insert into dataClass (pid) values (#{id})
+    </insert>
+    <update id="updateFlag" parameterType="DataClass" >
+        UPDATE dataclass set
+        flag=#{flag}
+        WHERE id=#{id}
+    </update>
+    <select id="queryData"  resultType="DataClass">
+        select id,pid,name,ename,imageUrl from dataclass where id = #{id}
+    </select>
+    <update id="update" parameterType="DataClass" >
+        UPDATE dataclass
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name!=null">name=#{name},</if>
+            <if test="imageUrl!=null">imageUrl=#{imageUrl},</if>
+            <if test="ename!=null">ename=#{ename},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+    <delete id="del"  parameterType = "java.util.List">
+        delete from dataclass where id in
+        <foreach collection="list"  item="item" open="(" separator="," close=")"  >
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="queryImageUrl" resultType="dataclass">
+        select id,imageUrl from dataclass where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="queryCount" parameterType="Integer" resultType="Integer">
+        select count(*)  from dataclass where pid = #{id}
+    </select>
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.newsupplytech.jxsmh.mapper.data.DataInfoMapper">
+    <insert id="add" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO  datainfo(datatype, state,file,fileImage,dataName)
+        VALUES
+        <foreach collection="array" item="item" separator=",">
+            (#{item.dataType}, #{item.state}, #{item.file}, #{item.fileImage}, #{item.dataName})
+        </foreach>
+    </insert>
+    <resultMap type="DataInfo" id="dataList">
+        <result property="id" column="id"/>
+        <result property="dataType" column="datatype"/>
+        <result property="file" column="file"/>
+        <result property="state" column="state"/>
+        <result property="createtime" column="createtime"/>
+        <result property="permission" column="permission"/>
+        <result property="fileImage" column="fileImage"/>
+        <result property="dataName" column="dataName"/>
+        <result property="name" column="name"/>
+        <result property="version" column="version"/>
+    </resultMap>
+    <select id="queryList" resultMap="dataList">
+        select di.id,di.dataType,di.file,di.state,di.createtime,di.fileImage,di.dataName,dc.name,di.version
+        ,dc.name as typename
+        from datainfo di
+        left join dataclass dc on dc.id = di.datatype
+
+    </select>
+    <update id="update" parameterType="DataInfo" >
+        UPDATE dataInfo
+        <trim prefix="set" suffixOverrides=",">
+            <if test="dataType!=null">dataType=#{dataType},</if>
+            <if test="file!=null">file=#{file},</if>
+            <if test="state!=null">state=#{state},</if>
+            <if test="createtime!=null">createtime=#{createtime},</if>
+            <if test="permission!=null">permission=#{permission},</if>
+            <if test="dataName!=null">dataName=#{dataName},</if>
+            <if test="fileImage!=null">fileImage=#{fileImage},</if>
+            <if test="version!=null">version=#{version},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+    <delete id="del"  parameterType = "java.util.List">
+        delete from dataInfo where id in
+        <foreach collection="list"  item="item" open="(" separator="," close=")"  >
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delData"  parameterType = "java.util.List">
+        delete from dataInfo where datatype in
+        <foreach collection="list"  item="item" open="(" separator="," close=")"  >
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="queryImageUrl" resultType="DataInfo">
+        select id,fileImage,file from dataInfo where datatype in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="queryCount" parameterType="Integer" resultType="Integer">
+        select count(*)  from dataInfo where datatype = #{id}
+    </select>
+
+    <select id="queryUrl" parameterType="dataInfo" resultType="DataInfo">
+        select id,fileImage,file  from dataInfo where id = #{id}
+    </select>
+
+</mapper>

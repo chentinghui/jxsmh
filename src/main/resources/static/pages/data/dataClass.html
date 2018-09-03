@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>资料</title>
+    <link rel="stylesheet" href="../../css/ztree/demo.css" type="text/css">
+    <link rel="stylesheet" href="../../css/ztree/metroStyle/metroStyle.css" type="text/css">
+
+    <link rel="stylesheet" href="../../css/admin.css">
+    <link rel="stylesheet" href="../../css/bootstrap.css">
+    <link rel="stylesheet" href="../../js/layui/css/layui.css"  media="all">
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/axios.min.js"></script>
+    <script type="text/javascript" src="../../js/ztree/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="../../js/ztree/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="../../js/ztree/jquery.ztree.exedit.min.js"></script>
+    <script src="../../js/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/data/dataClass.js"></script>
+    <script src="../../js/common.js"></script>
+
+
+</head>
+<body>
+<input id="tempid" type="hidden" value="">
+<input id="imageUrl" type="hidden" value="">
+<div class="container content">
+    <!--类目管理-->
+    <div class="right-part navbar-form navbar-left light-bg" id="type" style="padding-left: 0;">
+
+        <div class="zTreeDemoBackground left" style="float: left;">
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
+        <div class="s-right-part"  id="sbmt"  style="width:auto;visibility:hidden; ">
+            <table class="send-list">
+                <tr>
+                    <td>中文名称/Chinese name</td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" class="form-control" style="width: 300px;">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>英文名称/English name</td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" id="ename" name="ename" class="form-control" style="width: 300px;">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>主图/Top image</td>
+                    <td>
+                        <input type="file" name="file" id="file" onchange="verificationPicFile(this)">
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button class="btn btn-info btn-diy" onclick="save()">修改保存 / SUBMIT</button>
+                        <button class="btn btn-default">重置 / RESET</button>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>
+<span></span>
+</body>
+</html>

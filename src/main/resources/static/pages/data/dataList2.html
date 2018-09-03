@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>资料</title>
+    <link rel="stylesheet" href="../../css/ztree/demo.css" type="text/css">
+    <link rel="stylesheet" href="../../css/ztree/metroStyle/metroStyle.css" type="text/css">
+
+    <link rel="stylesheet" href="../../css/admin.css">
+    <link rel="stylesheet" href="../../css/bootstrap.css">
+    <link rel="stylesheet" href="../../js/layui/css/layui.css"  media="all">
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/axios.min.js"></script>
+    <script type="text/javascript" src="../../js/ztree/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="../../js/ztree/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="../../js/ztree/jquery.ztree.exedit.min.js"></script>
+    <script src="../../js/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/data/dataClass.js"></script>
+    <script type="text/javascript" src="../../js/data/dataAdd.js"></script>
+    <script src="../../js/common.js"></script>
+
+
+</head>
+<body>
+<input id="tempid" type="hidden" value="">
+<input id="imageUrl" type="hidden" value="">
+<div class="container content">
+    <div class="left-part left-part-fill">
+        <ul class="left-list">
+            <li class="type" data-nav="type">
+                类目管理 <br>
+                CATEGORY
+            </li>
+            <li class="add " data-nav="add">
+                新增资料 <br>
+                NEW DATA
+            </li>
+            <li class="list active" data-nav="list">
+                资料列表 <br>
+                DATA LIST
+            </li>
+        </ul>
+    </div>
+    <!--新增动态-->
+    <div class="right-part navbar-form navbar-left" id="add" hidden>
+        <table class="send-list" id="table_add">
+            <tr>
+                <td>资料分类/Data Type</td>
+                <td>
+                    <div class="content_wrap">
+                        <div class="zTreeDemoBackground left">
+                            <ul class="list">
+                                  <li class="title">&nbsp;&nbsp;城市：<input id="citySel" type="text" readonly value="" style="width:120px;"/>
+                                    &nbsp;<a id="menuBtn" href="#" onclick="showMenu(); return false;">选择</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="menuContent" class="menuContent" style="display:none; position: absolute;">
+                        <ul id="droptree" class="ztree" style="margin-top:0; width:160px;"></ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>当前状态/Status</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" style="width: 300px;text-align: left;"
+                                id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            正常
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
+                            <li><a href="#">选项1</a></li>
+                            <li><a href="#">选项2</a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>上传附件/Upload Documents</td>
+                <td>
+                    <input type="button" onclick="addOne()" class="label-btn" value="+添加/Add to"
+                           style="width: 158px;padding: 0 1em;height: 35px;">
+                    <small onclick="subOne()" >减少子类目</small>
+                </td>
+            </tr>
+            <tr class="addImgTr">
+                <td></td>
+                <td>
+                    <label for="fileImg1">主图/Upload image"</label>
+                    <input type="file" id="fileImg1" style="display: none">
+                    <input type="button" class="label-btn" value="上传/UPLOAD" style="padding: 0 1em;">
+                    <div class="form-group">
+                        <input type="text" class="form-control" style="width: 186px;" placeholder="子类名称/Subclass name">
+                    </div>
+                </td>
+            </tr>
+            <tr class="addImgTr">
+                <td></td>
+                <td>
+                    <label for="fileImg2">主图/Upload image"</label>
+                    <input type="file" id="fileImg2" style="display: none">
+                    <input type="button" class="label-btn" value="上传/UPLOAD" style="padding: 0 1em;">
+                    <div class="form-group">
+                        <input type="text" class="form-control" style="width: 186px;" placeholder="子类名称/Subclass name">
+                    </div>
+                </td>
+            </tr>
+
+            <tr id="btn-send">
+                <td></td>
+                <td>
+                    <button class="btn btn-diy btn-info">保存 / SUBMIT</button>
+                    <button class="btn btn-default">重置 / RESET</button>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+    <!--类目管理-->
+    <div class="right-part navbar-form navbar-left light-bg" id="type" style="padding-left: 0;" hidden>
+
+        <div class="zTreeDemoBackground left" style="float: left;">
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
+        <div class="s-right-part"  id="sbmt"  style="width:auto;visibility:hidden; ">
+            <table class="send-list">
+                <tr>
+                    <td>中文名称/Chinese name</td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" class="form-control" style="width: 300px;">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>英文名称/English name</td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" id="ename" name="ename" class="form-control" style="width: 300px;">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>主图/Top image</td>
+                    <td>
+                        <input type="file" name="file" id="file" onchange="verificationPicFile(this)">
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button class="btn btn-info btn-diy" onclick="save()">修改保存 / SUBMIT</button>
+                        <button class="btn btn-default">重置 / RESET</button>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <!--列表-->
+    <div class="right-part navbar-form navbar-left" id="list" >
+        <div class="select-warp">
+            <div class="pull-left">
+
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    资料类别
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">资料类别1</a></li>
+                    <li><a href="#">资料类别2</a></li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <input type="text" style="width: 138px;" class="form-control" >
+            </div>
+            <button class="btn btn-diy">查询/SEARCH</button>
+            <span>
+               &nbsp;&nbsp; 状态 / Status &nbsp;&nbsp;
+            </span>
+            </div>
+            <div class="pull-right">
+                <button class=" btn btn-diy" style="margin-left: 80px;" onclick="deleteConfirm()">删除/DELETE</button>
+                <button class="btn btn-diy" onclick="editDeatil()">新增/ADD NEW</button>
+            </div>
+        </div>
+
+        <table class="list martop30  table table-striped">
+            <tr>
+                <td>
+                    <input type="checkbox">
+                </td>
+                <td>
+                    资料名称/Data Name
+                </td>
+                <td>
+                    资料编号/Data Code
+                </td>
+                <td>
+                    资料类型/Data Type
+                </td>
+                <td>
+                    创建时间/Create Date
+                </td>
+                <td>
+                    状态/Status
+                </td>
+                <td>
+                    操作/Operation
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td><td>纱窗只收</td>
+                <td>123123</td>
+                <td>公司简介</td>
+                <td>2018-08-03</td>
+                <td>正常</td>
+                <td>
+                    <span  onclick="editDeatil()">编辑/Edit</span>
+                    <span onclick="deleteConfirm()">删除/Delete</span>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td><td>纱窗只收</td>
+                <td>123123</td>
+                <td>公司简介</td>
+                <td>2018-08-03</td>
+                <td>正常</td>
+                <td>
+                    <span  onclick="editDeatil()">编辑/Edit</span>
+                    <span onclick="deleteConfirm()">删除/Delete</span>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td><td>纱窗只收</td>
+                <td>123123</td>
+                <td>公司简介</td>
+                <td>2018-08-03</td>
+                <td>正常</td>
+                <td>
+                    <span  onclick="editDeatil()">编辑/Edit</span>
+                    <span onclick="deleteConfirm()">删除/Delete</span>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td><td>纱窗只收</td>
+                <td>123123</td>
+                <td>公司简介</td>
+                <td>2018-08-03</td>
+                <td>正常</td>
+                <td>
+                    <span  onclick="editDeatil()">编辑/Edit</span>
+                    <span onclick="deleteConfirm()">删除/Delete</span>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td><td>纱窗只收</td>
+                <td>123123</td>
+                <td>公司简介</td>
+                <td>2018-08-03</td>
+                <td>正常</td>
+                <td>
+                    <span  onclick="editDeatil()">编辑/Edit</span>
+                    <span onclick="deleteConfirm()">删除/Delete</span>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td><td>纱窗只收</td>
+                <td>123123</td>
+                <td>公司简介</td>
+                <td>2018-08-03</td>
+                <td>正常</td>
+                <td>
+                    <span  onclick="editDeatil()">编辑/Edit</span>
+                    <span onclick="deleteConfirm()">删除/Delete</span>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox"></td><td>纱窗只收</td>
+                <td>123123</td>
+                <td>公司简介</td>
+                <td>2018-08-03</td>
+                <td>正常</td>
+                <td>
+                    <span  onclick="editDeatil()">编辑/Edit</span>
+                    <span onclick="deleteConfirm()">删除/Delete</span>
+                </td>
+            </tr>
+
+        </table>
+        <div class="left-part" style="height: 80px;padding: 21px 0;">
+            <span>每页</span>
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" style="width: 4em;text-align: left;" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    10
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <li><a href="#">20</a></li>
+                    <li><a href="#">50</a></li>
+                </ul>
+            </div>
+            <span>条记录</span>
+        </div>
+
+        <nav aria-label="Page navigation" class="pull-right">
+            <ul class="pagination">
+                <li>
+                    <a href="#" aria-label="Previous">
+                        <!--<span aria-hidden="true">&laquo;</span>-->
+                        上一页
+                    </a>
+                </li>
+                <li class="active"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">...</a></li>
+                <li><a href="#">97</a></li>
+                <li><a href="#">98</a></li>
+                <li><a href="#">99</a></li>
+                <li>
+                    <a href="#" aria-label="Next">
+                        <!--<span aria-hidden="true">&raquo;</span>-->
+                        下一页
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <span class="pull-right text-justify text-center" style="margin-top: 28px;margin-right: 10px;">显示1到10项，共60项</span>
+
+    </div>
+    <span class="footerText">
+        © 2017-2018  ALL RIGHTS RESERVED BY CMECH
+    </span>
+
+</div>
+
+<script>
+    $('.dropdown-menu li').bind('click', function () {
+        console.log( $(this).parent());
+        var type = $(this).attr('data-type');
+        $(this).parent().parent().find('.dropdown-toggle').html($(this).text()+'<span class="caret"></span>');
+    });
+
+
+</script>
+<script>
+    window.onload = function(){
+        var menu = document.getElementsByClassName('left-list')[0].getElementsByTagName('li');
+        var r_menu = document.getElementsByClassName('right-part');
+        console.log(menu);
+        for(var i=0;i<menu.length;i++){
+            menu[i].onclick = function () {
+                for(var k=0;k<menu.length;k++){
+                    menu[k].classList.remove('active');
+                }
+                this.classList.add('active');
+                var _menu = (this.getAttribute('data-nav'));
+                for(var j=0;j<menu.length;j++){
+                    r_menu[j].style.display = 'none';
+                }
+                document.getElementById(_menu).style.display='block';
+            }
+        }
+
+        function deleteConfirm(id){
+            document.getElementById('delete').style.display = 'block'
+        }
+        function editDeatil(id){
+            document.getElementById('list').style.display='none';
+            document.getElementById('add').style.display='block'
+        }
+        function addOne(){
+            var length = $('.addImgTr').length;
+            var tr = '<tr class="addImgTr"><td></td> <td>' +
+                    '<label for="fileImg'+length+'">主图/Upload image"</label> ' +
+                    '<input type="file" id="fileImg'+length+'" style="display: none">' +
+                    '<input type="button" class="label-btn" value="上传/UPLOAD" style="padding: 0 1em;"> ' +
+                    '<div class="form-group">' +
+                    '<input type="text" class="form-control" style="width: 186px;" placeholder="子类名称/Subclass name">' +
+                    '</div></td></tr>';
+            $('#btn-send').before(tr);
+        }
+        function subOne(){
+            var length = $('.addImgTr').length;
+            if(length ==1)return false;
+            $('#table_add .addImgTr').last().remove();
+        }
+    }
+</script>
+<SCRIPT type="text/javascript">
+
+</SCRIPT>
+</body>
+</html>

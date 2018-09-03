@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态详情</title>
+    <link rel="stylesheet" href="../../css/normal.css">
+    <link rel="stylesheet" href="../../css/swiper-3.3.1.min.css">
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/axios.min.js"></script>
+    <style>
+        body{background-color: #F4F4F4;}
+    </style>
+</head>
+<body>
+<style>
+.main {
+    background-color: white;
+    padding: 50px 30px;
+    box-sizing: border-box;
+}
+.contents{
+    font-family: "微软雅黑";
+    color: #333;
+}
+</style>
+
+    <div class="main">
+        <h2 class="text-center letter" id="tileid" title="">我们所做的，远不止于“开关门窗五金”</h2>
+        <p class="text-center letter sub-title" id="createtime">发布时间：2018-08-01 10:10</p>
+        <hr class="hr-light">
+        <div class="contents letter" id="details">
+
+        </div>
+    </div>
+
+
+<script>
+    $(document).ready(function(){
+        var id = getParameter("id");
+        axios.post('/front/detail'
+            ,{id:id}
+            ,{headers: {token: sessionStorage.getItem('token')}}
+        ).then(function (res) {
+            //alert(JSON.stringify(res.data))//id,title,createtime,details
+            var d = res.data;
+            $("#tileid").text(d.title);
+            $("#createtime").text(timeStamp2String(d.createtime));//timeStamp2String
+            $("#details").html(d.details);
+        })
+
+    });
+    function timeStamp2String(time){
+        var datetime = new Date();
+        datetime.setTime(time);
+        var year = datetime.getFullYear();
+        var month = datetime.getMonth() + 1 < 10 ? '0' + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+        var date = datetime.getDate() < 10 ? '0' + datetime.getDate() : datetime.getDate();
+        var hour = datetime.getHours()< 10 ? '0' + datetime.getHours() : datetime.getHours();
+        var minute = datetime.getMinutes()< 10 ? '0' + datetime.getMinutes() : datetime.getMinutes();
+        var second = datetime.getSeconds()< 10 ? '0' + datetime.getSeconds() : datetime.getSeconds();
+        return year + '-' + month + '-' + date+' '+hour+':'+minute+':'+second;
+    }
+
+    function getParameter(param) {
+        var query = window.location.search; //获取URL地址中？后的所有字符
+        var iLen = param.length; //获取你的参数名称长度
+        var iStart = query.indexOf(param); //获取你该参数名称的其实索引
+        if(iStart == -1) //-1为没有该参数
+            return "";
+        iStart += iLen + 1;
+        var iEnd = query.indexOf("&", iStart); //获取第二个参数的其实索引
+        if(iEnd == -1) //只有一个参数
+            return query.substring(iStart); //获取单个参数的参数值
+        return query.substring(iStart, iEnd); //获取第二个参数的值
+    }
+</script>
+</body>
+</html>

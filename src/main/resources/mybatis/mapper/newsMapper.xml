@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.newsupplytech.jxsmh.mapper.news.NewsMapper">
+    <!--<select id="" parameterType="Integer" resultType="news.News">-->
+        <!--select * from user where id = #{id}-->
+    <!--</select>-->
+    <delete id="deleteNews"  parameterType = "java.util.List">
+        delete from news where id in
+        <foreach collection="list"  item="item" open="(" separator="," close=")"  >
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="updateOne" parameterType="News" >
+        UPDATE news
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title!=null">title=#{title},</if>
+            <if test="fileUrl!=null">picture=#{fileUrl},</if>
+            <if test="state!=null">state=#{state},</if>
+            <if test="details!=null">details=#{details},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
+    <select id="queryImageUrl" resultType="News">
+        select id,picture from news where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>

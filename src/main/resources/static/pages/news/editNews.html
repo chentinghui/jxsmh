@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>用户</title>
+    <link rel="stylesheet" href="../../js/layui/css/layui.css"  media="all">
+
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/axios.min.js"></script>
+    <script src="../../js/layui/layui.js" charset="utf-8"></script>
+</head>
+<body>
+<form class="layui-form send-list"  action="" id="sbmt" >
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题/Title</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" id="title" lay-verify="title" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">主图 / Top Picture</label>
+        <div class="layui-input-block">
+            <input type="file" name="file" id="file" accept="image/*" />
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">当前状态 / Status</label>
+        <div class="layui-input-block">
+            <select name="state" lay-filter="state" id="state">
+                <option selected value="1">显示</option>
+                <option value="2">隐藏</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">详情/Details</label>
+        <div class="layui-input-block">
+            <textarea id="details" style="display: none;"></textarea>
+        </div>
+    </div>
+
+</form>
+
+
+<input id="tempid" type="hidden" value="" >
+<input id="fileUrl" type="hidden" value="" >
+
+</form>
+</body>
+<script>
+    var  layedit,index;
+    layui.use(['form','layedit'], function(){
+        var form = layui.form;
+        layedit = layui.layedit
+        layedit.set({
+            uploadImage: {
+                url: '/upload' //接口url
+                ,type: 'post' //默认post
+            }
+        });
+        index = layedit.build('details');
+
+       // alert(layedit.getContent(index))
+    });
+
+    function submitForm(){
+
+        var formData = new FormData();
+        formData.append("title", $("#title").val());
+        formData.append("details", layedit.getContent(index));
+        formData.append("state", $("#state").val());
+        formData.append("file", $("#file")[0].files[0]);
+        formData.append("fileUrl", $("#fileUrl").val());
+        formData.append("id", parseInt($("#tempid").val()));
+
+        $.ajax({
+            url: '/news/updateOne',
+            type: 'POST',
+            cache: false, //上传文件不需要缓存
+            data: formData,
+            processData: false, // 告诉jQuery不要去处理发送的数据
+            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+            success: function (msg) {
+                if(msg){
+                    layer.msg("修改成功");
+                }else{
+                    layer.alert("修改失败");
+                }
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        obj = $.parseJSON(window.parent.$("#dataTemp").val())
+       //alert(window.parent.$("#dataTemp").val())
+        $("#title").val(obj.title),
+        $("#details").val(obj.details),
+       // $('input:radio[name="state"]:checked').val(obj.state),
+       //  $("input:radio[name=state][value="+obj.state+"]").attr("checked",true);
+        $('#tempid').val(obj.id);
+        $('#fileUrl').val(obj.picture);
+        var select = 'dd[lay-value=' + obj.state + ']';
+        $('#state').siblings("div .layui-form-select").find('dl').find(select).click();
+    });
+</script>
+
+
+</html>

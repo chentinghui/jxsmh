@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>资料</title>
+    <link rel="stylesheet" href="../../css/admin.css">
+    <link rel="stylesheet" href="../../css/bootstrap.css">
+    <link rel="stylesheet" href="../../js/layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="../../css/ztree/demo.css" type="text/css">
+    <link rel="stylesheet" href="../../css/ztree/zTreeStyle/zTreeStyle.css" type="text/css">
+
+    <script src="../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/axios.min.js"></script>
+    <script type="text/javascript" src="../../js/ztree/jquery.ztree.core.js"></script>
+    <script src="../../js/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/data/dataAdd.js?v=1.1"></script>
+    <script src="../../js/common.js"></script>
+
+
+</head>
+<body>
+<input id="tempid" type="hidden" value="">
+<input id="imageUrl" type="hidden" value="">
+<div class="container content">
+    <!--新增动态-->
+    <div class="right-part navbar-form navbar-left" id="add">
+        <form class="layui-form" action="" id="sbmt" >
+            <div class="layui-form-item">
+                <label class="layui-form-label">资料分类/Data Type</label>
+                <div class="layui-input-block">
+                    <div class="zTreeDemoBackground ">
+                        <div class=" ">
+                                <ul class="">
+                                    <li class="title">
+                                        <input id="dataSel" type="text" readonly value="" style="width:120px;"/>
+                                        <input id="dataSelHidden" type="hidden" readonly value=""/>
+                                    &nbsp;<a id="menuBtn" href="#" onclick="showMenu(); return false;">选择</a>
+                                    </li>
+                                </ul>
+                        </div>
+                    </div>
+                    <div id="menuContent" class="menuContent" style="display:none; position: absolute;z-index:999;">
+                        <ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">当前状态/Status</label>
+                <div class="layui-input-block">
+                    <select name="state" lay-filter="state" id="state">
+                        <option selected value="1">显示</option>
+                        <option value="2">不显示</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item" id="addDiv">
+                <label class="layui-form-label">上传附件/Upload Documents</label>
+                <div class="layui-input-block" >
+                    <input type="button" onclick="addOne()" value="添加/Add to" />
+
+                </div>
+                <div class="layui-input-block flag">
+                    图片：<input type="file" value=""   accept="image/*" onchange="subFile(this,1)">
+                    <input type="text" readonly name="fileImage" value="" />
+                    文件：<input type="file" value=""   accept="*/*" onchange="subFile(this,1)">
+                    <input type="text" readonly name="file"  value="" />
+                    名称：<input type="text" id="dataName0" name="dataName" class="form-control" style="width: 176px;" placeholder="子类名称/Subclass name">
+                    <input type="button"  onclick="subOne(this)" value="减少子类目" />
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit id="save" lay-filter="formDemo">保存 / SUBMIT</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置 / RESET</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script>
+</script>
+</body>
+</html>
